@@ -1,9 +1,10 @@
-import GuestLayout from '@/Layouts/GuestLayout';
 import ForgotPassword from '@/Pages/Auth/Login/ForgotPassword/ForgotPassword';
 import { LoginCardStyled, LoginWrapperStyled } from '@/Pages/Auth/Login/Login.styled';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { GitHub } from '@mui/icons-material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
+import { Link as MUILink } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -11,17 +12,26 @@ import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import { type FormEventHandler, useState } from 'react';
 
-export default function Login(props: { disableCustomTheme?: boolean }) {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+export default function Login() {
+  const [open, setOpen] = useState(false);
+
+  const { data, setData, post, processing, errors, reset } = useForm({
+    email: '',
+    password: '',
+    remember: false as boolean
+  });
+
+  const submit: FormEventHandler = (e) => {
+    e.preventDefault();
+
+    post(route('login'), {
+      onFinish: () => reset('password')
+    });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,47 +41,9 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    });
-  };
-
-  const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
-
-    let isValid = true;
-
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
-    return isValid;
-  };
-
   return (
     <LoginWrapperStyled direction='column' justifyContent='space-between'>
+      <Head title='Login' />
       <LoginCardStyled variant='outlined'>
         <GitHub />
         <Typography component='h1' variant='h4' sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
@@ -79,37 +51,37 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
         </Typography>
         <Box
           component='form'
-          onSubmit={handleSubmit}
+          onSubmit={submit}
           noValidate
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: 2
-          }}
+          display={'flex'}
+          flexDirection={'column'}
+          width={'100%'}
+          gap={2}
         >
           <FormControl>
             <FormLabel htmlFor='email'>Email</FormLabel>
             <TextField
-              error={emailError}
-              helperText={emailErrorMessage}
-              id='email'
-              type='email'
-              name='email'
               placeholder='your@email.com'
-              autoComplete='email'
               autoFocus
               required
               fullWidth
+              error={!!errors.email}
+              helperText={errors.email}
+              color={errors.email ? 'error' : 'primary'}
+              id='email'
+              type='email'
+              name='email'
+              value={data.email}
+              autoComplete='email'
               variant='outlined'
-              color={emailError ? 'error' : 'primary'}
+              onChange={(e) => setData('email', e.target.value)}
             />
           </FormControl>
           <FormControl>
             <FormLabel htmlFor='password'>Password</FormLabel>
             <TextField
-              error={passwordError}
-              helperText={passwordErrorMessage}
+              error={!!errors.password}
+              helperText={errors.password}
               name='password'
               placeholder='••••••'
               type='password'
@@ -119,17 +91,31 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
               required
               fullWidth
               variant='outlined'
-              color={passwordError ? 'error' : 'primary'}
+              color={errors.password ? 'error' : 'primary'}
+              value={data.password}
+              onChange={(e) => setData('password', e.target.value)}
             />
           </FormControl>
-          <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />
+          <FormControlLabel
+            name='remember'
+            checked={data.remember}
+            onChange={(e) => setData('remember', (e.target.checked || false) as false)}
+            control={<Checkbox value='remember' color='primary' />}
+            label='Remember me'
+          />
           <ForgotPassword open={open} handleClose={handleClose} />
-          <Button type='submit' fullWidth variant='contained' onClick={validateInputs}>
+          <Button type='submit' fullWidth variant='contained' onClick={submit}>
             Sign in
           </Button>
-          <Link component='button' type='button' onClick={handleClickOpen} variant='body2' sx={{ alignSelf: 'center' }}>
+          <MUILink
+            component='button'
+            type='button'
+            onClick={handleClickOpen}
+            variant='body2'
+            sx={{ alignSelf: 'center' }}
+          >
             Forgot your password?
-          </Link>
+          </MUILink>
         </Box>
         <Divider>or</Divider>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -146,9 +132,9 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
           </Button>
           <Typography sx={{ textAlign: 'center' }}>
             Don&apos;t have an account?{' '}
-            <Link href='/material-ui/getting-started/templates/sign-in/' variant='body2' sx={{ alignSelf: 'center' }}>
-              Sign up
-            </Link>
+            <MUILink variant='body2' sx={{ alignSelf: 'center' }}>
+              <Link href={route('register')}>Sign up</Link>
+            </MUILink>
           </Typography>
         </Box>
       </LoginCardStyled>
