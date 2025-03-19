@@ -1,0 +1,31 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "tsc && vite build && vite build --ssr",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.9.4",
+        "@inertiajs/react": "^2.0.0",
+        "@types/node": "^18.13.0",
+        "@types/react": "^18.0.28",
+        "@types/react-dom": "^18.0.10",
+        "@vitejs/plugin-react": "^4.2.0",
+        "autoprefixer": "^10.4.12",
+        "axios": "^1.8.2",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^1.2.0",
+        "react-dom": "^19.0.0",
+        "typescript": "^5.0.2",
+        "vite": "^6.0.11",
+        "vite-tsconfig-paths": "^5.1.4"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.0",
+        "@mui/icons-material": "^6.4.8",
+        "@mui/material": "^6.4.8",
+        "react": "^19.0.0"
+    }
+}
