@@ -50,8 +50,10 @@ export default function CartCounter({ items }: CartCounterProps) {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{
-          sx: { width: 350, maxHeight: 400 }
+        slotProps={{
+          paper: {
+            sx: { width: 350, maxHeight: 400 }
+          }
         }}
       >
         <Box component='div'>

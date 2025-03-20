@@ -43,7 +43,6 @@ class HomeController extends Controller
             'newReleases' => $newReleases,
             'topRated' => $topRated,
             'userFavorites' => $request->user()
-                // @phpstan-ignore method.notFound
                 ? $request->user()->favorites()->pluck('id')
                 : collect([]),
             'filters' => [
@@ -63,8 +62,7 @@ class HomeController extends Controller
         return Inertia::render('Product/Product', [
             'product' => $product->load('category'),
             'relatedProducts' => $relatedProducts,
-            // @phpstan-ignore method.notFound
-            'isFavorite' => $request->user() ? $product->isFavoritedByUser(auth()->user()) : false
+            'isFavorite' => $request->user() ? $product->isFavoriteByUser($request->user()) : false
         ]);
     }
 }

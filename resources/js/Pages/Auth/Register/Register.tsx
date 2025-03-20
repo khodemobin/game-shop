@@ -1,52 +1,39 @@
-import ForgotPassword from '@/Pages/Auth/Login/ForgotPassword/ForgotPassword';
 import { LoginCardStyled, LoginWrapperStyled } from '@/Pages/Auth/Login/Login.styled';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { GitHub } from '@mui/icons-material';
-import GoogleIcon from '@mui/icons-material/Google';
 import { Link as MUILink } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { type FormEventHandler, useState } from 'react';
+import type { FormEventHandler } from 'react';
 
-export default function Login() {
-  const [open, setOpen] = useState(false);
-
+export default function Register() {
   const { data, setData, post, processing, errors, reset } = useForm({
+    name: '',
     email: '',
     password: '',
-    remember: false as boolean
+    password_confirmation: ''
   });
 
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
 
-    post(route('login'), {
-      onFinish: () => reset('password')
+    post(route('register'), {
+      onFinish: () => reset('password', 'password_confirmation')
     });
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   return (
     <LoginWrapperStyled direction='column' justifyContent='space-between'>
-      <Head title='Login' />
+      <Head title='Register' />
       <LoginCardStyled variant='outlined'>
         <GitHub />
         <Typography component='h1' variant='h4' sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
-          Sign in
+          Create account
         </Typography>
         <Box
           component='form'
@@ -58,15 +45,30 @@ export default function Login() {
           gap={2}
         >
           <FormControl>
+            <FormLabel htmlFor='name'>Name</FormLabel>
+            <TextField
+              placeholder='John Doe'
+              autoFocus
+              required
+              fullWidth
+              error={!!errors.name}
+              helperText={errors.name}
+              id='name'
+              name='name'
+              value={data.name}
+              variant='outlined'
+              onChange={(e) => setData('name', e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl>
             <FormLabel htmlFor='email'>Email</FormLabel>
             <TextField
               placeholder='your@email.com'
-              autoFocus
               required
               fullWidth
               error={!!errors.email}
               helperText={errors.email}
-              color={errors.email ? 'error' : 'primary'}
               id='email'
               type='email'
               name='email'
@@ -76,6 +78,7 @@ export default function Login() {
               onChange={(e) => setData('email', e.target.value)}
             />
           </FormControl>
+
           <FormControl>
             <FormLabel htmlFor='password'>Password</FormLabel>
             <TextField
@@ -85,47 +88,42 @@ export default function Login() {
               placeholder='••••••'
               type='password'
               id='password'
-              autoComplete='current-password'
-              autoFocus
               required
               fullWidth
               variant='outlined'
-              color={errors.password ? 'error' : 'primary'}
               value={data.password}
               onChange={(e) => setData('password', e.target.value)}
             />
           </FormControl>
-          <FormControlLabel
-            name='remember'
-            checked={data.remember}
-            onChange={(e) => setData('remember', (e.target as HTMLInputElement).checked)}
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
-          />
-          <ForgotPassword open={open} handleClose={handleClose} />
-          <Button type='submit' fullWidth variant='contained' onClick={submit}>
-            Sign in
+
+          <FormControl>
+            <FormLabel htmlFor='password_confirmation'>Confirm Password</FormLabel>
+            <TextField
+              error={!!errors.password_confirmation}
+              helperText={errors.password_confirmation}
+              name='password_confirmation'
+              placeholder='••••••'
+              type='password'
+              id='password_confirmation'
+              required
+              fullWidth
+              variant='outlined'
+              value={data.password_confirmation}
+              onChange={(e) => setData('password_confirmation', e.target.value)}
+            />
+          </FormControl>
+
+          <Button type='submit' fullWidth variant='contained' disabled={processing}>
+            Register
           </Button>
-          <MUILink
-            component='button'
-            type='button'
-            onClick={handleClickOpen}
-            variant='body2'
-            sx={{ alignSelf: 'center' }}
-          >
-            Forgot your password?
-          </MUILink>
         </Box>
         <Divider>or</Divider>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Button fullWidth variant='outlined' onClick={() => alert('Sign in with Google')} startIcon={<GoogleIcon />}>
-            Sign in with Google
-          </Button>
           <Typography sx={{ textAlign: 'center' }}>
-            Don&apos;t have an account?{' '}
+            Already have an account?{' '}
             <MUILink variant='body2' sx={{ alignSelf: 'center' }}>
-              <Link as='span' href={route('register')}>
-                Sign up
+              <Link as='span' href={route('login')}>
+                Sign in
               </Link>
             </MUILink>
           </Typography>
