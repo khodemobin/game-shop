@@ -1,21 +1,22 @@
 import { ToolbarStyled } from '@/Layouts/AppHeader/AppHeader.styled';
 import ColorModeIconDropdown from '@/theme/ColorModeIconDropdown';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { GitHub } from '@mui/icons-material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
-import * as React from 'react';
+import { useState } from 'react';
+import CartCounter, { type CartItem } from './CartCounter/CartCounter';
 
 export default function AppHeader() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -36,6 +37,7 @@ export default function AppHeader() {
         <ToolbarStyled variant='dense' disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <GitHub />
+            <CartCounter items={(usePage().props.cart as CartItem[]) ?? []} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button variant='text' color='info' size='small'>
                 Features
@@ -112,14 +114,14 @@ export default function AppHeader() {
                 <MenuItem>Blog</MenuItem>
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
-                  <Link href={route('register')}>
+                  <Link style={{ width: '100%' }} href={route('register')}>
                     <Button color='primary' variant='contained' fullWidth>
                       Sign up
                     </Button>
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href={route('login')}>
+                  <Link style={{ width: '100%' }} href={route('login')}>
                     <Button color='primary' variant='outlined' fullWidth>
                       Sign in
                     </Button>
