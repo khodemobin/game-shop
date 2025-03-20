@@ -1,9 +1,9 @@
 <?php
 
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\CartController;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Home\ProfileController;
 
 require __DIR__ . '/auth.php';
 

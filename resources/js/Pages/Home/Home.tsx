@@ -23,7 +23,7 @@ export default function Home({
             Featured Games
           </Typography>
           <Box
-            sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(5, 1fr)' }, gap: 3 }}
+            sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(4, 1fr)' }, gap: 3 }}
           >
             {featuredProducts.map((product) => (
               <ProductItem key={product.id} product={product} isFavorite={userFavorites.includes(product.id)} />

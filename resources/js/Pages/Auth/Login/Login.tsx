@@ -43,6 +43,7 @@ export default function Login() {
   return (
     <LoginWrapperStyled direction='column' justifyContent='space-between'>
       <Head title='Login' />
+      <ForgotPassword open={open} handleClose={handleClose} />
       <LoginCardStyled variant='outlined'>
         <GitHub />
         <Typography component='h1' variant='h4' sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
@@ -102,7 +103,6 @@ export default function Login() {
             control={<Checkbox value='remember' color='primary' />}
             label='Remember me'
           />
-          <ForgotPassword open={open} handleClose={handleClose} />
           <Button type='submit' fullWidth variant='contained' onClick={submit}>
             Sign in
           </Button>

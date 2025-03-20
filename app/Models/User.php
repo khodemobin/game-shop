@@ -19,7 +19,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $guard = ["id"];
+    protected $guarded = ["id"];
 
     /**
      * The attributes that should be hidden for serialization.
