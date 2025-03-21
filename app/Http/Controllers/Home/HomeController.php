@@ -59,8 +59,21 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
+        $product->load([
+            'category',
+            'reviews' => function ($query) {
+                $query->where('is_approved', true)
+                    ->with([
+                        'user',
+                        'replies' => function ($query) {
+                            $query->where('is_approved', true)->with('user');
+                        }
+                    ]);
+            }
+        ]);
+
         return Inertia::render('Product/Product', [
-            'product' => $product->load('category'),
+            'product' => $product,
             'relatedProducts' => $relatedProducts,
             'isFavorite' => $request->user() ? $product->isFavoriteByUser($request->user()) : false
         ]);
