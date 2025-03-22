@@ -1,17 +1,20 @@
+import ColorModeIconDropdown from '@/theme/ColorModeIconDropdown';
 import { Link, router } from '@inertiajs/react';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import MenuIcon from '@mui/icons-material/Menu';
 import { Box, Button, Divider, Drawer, IconButton, MenuItem } from '@mui/material';
 import { useState } from 'react';
-import ColorModeIconDropdown from '@/theme/ColorModeIconDropdown';
+import type { MenuItemType } from '../types';
+
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface MobileMenuProps {
   user: {
     name: string;
   } | null;
+  menus: MenuItemType[];
 }
 
-export default function MobileMenu({ user }: MobileMenuProps) {
+export default function MobileMenu({ user, menus }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -46,12 +49,11 @@ export default function MobileMenu({ user }: MobileMenuProps) {
               <CloseRoundedIcon />
             </IconButton>
           </Box>
-          <MenuItem>Features</MenuItem>
-          <MenuItem>Testimonials</MenuItem>
-          <MenuItem>Highlights</MenuItem>
-          <MenuItem>Pricing</MenuItem>
-          <MenuItem>FAQ</MenuItem>
-          <MenuItem>Blog</MenuItem>
+          {menus.map((menu) => (
+            <Link key={menu.id} href={menu.url || route(menu.route as string)} style={{ width: '100%' }}>
+              <MenuItem onClick={toggleDrawer(false)}>{menu.title}</MenuItem>
+            </Link>
+          ))}
           <Divider sx={{ my: 3 }} />
           {user ? (
             <>
