@@ -1,7 +1,7 @@
 import ProductItem from '@/Components/ProductItem/ProductItem';
+import Slider from '@/Components/Slider/Slider';
 import type { ProductType } from '@/types';
-import { Reviews } from '@mui/icons-material';
-import { Box, Grid2, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export default function RelatedGames({ items }: { items: ProductType[] }) {
   return (
@@ -9,13 +9,11 @@ export default function RelatedGames({ items }: { items: ProductType[] }) {
       <Typography variant='h5' gutterBottom>
         Related Games
       </Typography>
-      <Grid2 container spacing={2}>
+      <Slider>
         {items.map((item) => (
-          <Grid2 size={{ xs: 12, sm: 6 }} key={item.id}>
-            <ProductItem product={item} />
-          </Grid2>
+          <ProductItem key={item.id} product={item} />
         ))}
-      </Grid2>
+      </Slider>
     </Box>
   );
 }

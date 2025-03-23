@@ -4,7 +4,6 @@ import { Box, Button, MenuItem as MUIMenuItem, Menu } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
 export default function MenuItem({ menu }: { menu: MenuItemType }) {
-  console.log('🚀 ~ MenuItem ~ menu:', menu);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [activeMenu, setActiveMenu] = useState<MenuItemType | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);

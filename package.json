@@ -27,6 +27,7 @@
         "@mui/icons-material": "^6.4.8",
         "@mui/material": "^6.4.8",
         "react": "^19.0.0",
-        "sonner": "^2.0.1"
+        "sonner": "^2.0.1",
+        "swiper": "^11.2.6"
     }
 }
