@@ -1,30 +1,17 @@
-import { useState } from 'react';
-import { Box, Typography, Rating, TextField, Button, Card, CardContent, Avatar, Divider } from '@mui/material';
+import type { ReviewType } from '@/types';
 import { useForm } from '@inertiajs/react';
+import { Avatar, Box, Button, Card, CardContent, Rating, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
 
 interface ReviewProps {
   productId: number;
-  reviews: Array<{
-    id: number;
-    content: string;
-    rating: number;
-    user: {
-      name: string;
-    };
-    replies: Array<{
-      id: number;
-      content: string;
-      user: {
-        name: string;
-      };
-    }>;
-  }>;
+  reviews: ReviewType[];
 }
 
 export default function Reviews({ productId, reviews }: ReviewProps) {
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
 
-  const { data, setData, post, processing, reset } = useForm({
+  const { data, setData, post, processing, errors, reset } = useForm({
     content: '',
     rating: 0
   });
@@ -33,7 +20,8 @@ export default function Reviews({ productId, reviews }: ReviewProps) {
     data: replyData,
     setData: setReplyData,
     post: postReply,
-    reset: resetReply
+    reset: resetReply,
+    errors: replyErrors
   } = useForm({
     content: ''
   });
@@ -41,12 +29,14 @@ export default function Reviews({ productId, reviews }: ReviewProps) {
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault();
     post(route('reviews.store', productId), {
+      preserveScroll: true,
       onSuccess: () => reset()
     });
   };
 
   const handleSubmitReply = (reviewId: number) => {
     postReply(route('reviews.reply', reviewId), {
+      preserveScroll: true,
       onSuccess: () => {
         resetReply();
         setReplyingTo(null);
@@ -64,11 +54,20 @@ export default function Reviews({ productId, reviews }: ReviewProps) {
       <Card sx={{ mb: 4 }}>
         <CardContent>
           <form onSubmit={handleSubmitReview}>
-            <Rating value={data.rating} onChange={(_, value) => setData('rating', value || 0)} sx={{ mb: 2 }} />
+            <Box display={'flex'} flexDirection={'column'} mb={1}>
+              <Rating value={data.rating} onChange={(_, value) => setData('rating', value || 0)} sx={{ mb: 2 }} />
+              <Typography color='error' variant='caption' gutterBottom>
+                {errors.rating}
+              </Typography>
+            </Box>
+
             <TextField
+              name='content'
+              error={!!errors.content}
+              helperText={errors.content}
+              color={errors.content ? 'error' : 'primary'}
               fullWidth
               multiline
-              rows={4}
               value={data.content}
               onChange={(e) => setData('content', e.target.value)}
               placeholder='Write your review...'
@@ -116,6 +115,10 @@ export default function Reviews({ productId, reviews }: ReviewProps) {
               {replyingTo === review.id ? (
                 <Box sx={{ ml: 4 }}>
                   <TextField
+                    name='content'
+                    error={!!replyErrors.content}
+                    helperText={replyErrors.content}
+                    color={replyErrors.content ? 'error' : 'primary'}
                     fullWidth
                     size='small'
                     value={replyData.content}

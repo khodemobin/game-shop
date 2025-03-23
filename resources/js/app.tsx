@@ -1,9 +1,10 @@
 import AppTheme from '@/theme/AppTheme';
 import { createInertiaApp } from '@inertiajs/react';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, GlobalStyles } from '@mui/material';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
+import { globalStyles } from './theme/global';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -17,6 +18,7 @@ createInertiaApp({
         <React.StrictMode>
           <AppTheme {...props}>
             <CssBaseline enableColorScheme />
+            <GlobalStyles styles={(theme) => globalStyles(theme)} />
             <App {...props} />
           </AppTheme>
         </React.StrictMode>
@@ -28,6 +30,7 @@ createInertiaApp({
       <React.StrictMode>
         <AppTheme {...props}>
           <CssBaseline enableColorScheme />
+          <GlobalStyles styles={(theme) => globalStyles(theme)} />
           <App {...props} />
         </AppTheme>
       </React.StrictMode>

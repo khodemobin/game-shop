@@ -22,6 +22,7 @@ export default function ProductGallery({ media, title }: ProductGalleryProps) {
     if (item.type === 'video') {
       return (
         <Box sx={{ position: 'relative', width: '100%', height: 400 }}>
+          {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
           <video
             src={item.url}
             controls
@@ -92,6 +93,7 @@ export default function ProductGallery({ media, title }: ProductGalleryProps) {
           >
             {media.map((item, index) => (
               <Box
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 key={index}
                 sx={{
                   position: 'relative',

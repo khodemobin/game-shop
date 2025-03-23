@@ -15,6 +15,17 @@ export default function ProductItem({ product, isFavorite }: ProductItemProps) {
     );
   };
 
+  const handleToggleFavorite = () => {
+    router.post(
+      route('favorites.toggle', product.id),
+      {},
+      {
+        preserveScroll: true,
+        preserveState: true
+      }
+    );
+  };
+
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       <Link href={route('products.show', product.id)}>
@@ -44,7 +55,7 @@ export default function ProductItem({ product, isFavorite }: ProductItemProps) {
       </CardContent>
       <IconButton
         sx={{ position: 'absolute', top: 8, right: 8, bgcolor: 'background.paper' }}
-        onClick={() => route('favorites.toggle', product.id)}
+        onClick={handleToggleFavorite}
       >
         {isFavorite ? <Favorite color='error' /> : <FavoriteBorder />}
       </IconButton>

@@ -3,36 +3,15 @@ import AuthButtons from '@/Layouts/AppHeader/AuthButtons/AuthButtons';
 import MobileMenu from '@/Layouts/AppHeader/MobileMenu/MobileMenu';
 import UserMenu from '@/Layouts/AppHeader/UserMenu/UserMenu';
 import ColorModeIconDropdown from '@/theme/ColorModeIconDropdown';
-import { Link, usePage } from '@inertiajs/react';
-
+import type { CartItem } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { GitHub } from '@mui/icons-material';
-import { AppBar, Box, Button, Container } from '@mui/material';
+import { AppBar, Box, Container } from '@mui/material';
 import CartCounter from './CartCounter/CartCounter';
-import type { CartItem, MenuItemType } from './types';
+import MenuItems from './MenuItems/MenuItems';
 
 export default function AppHeader() {
   const { auth, menus } = usePage().props;
-  console.log('🚀 ~ AppHeader ~ menus:', menus);
-
-  const renderMenuItem = (menu: MenuItemType) => {
-    if (menu.children?.length) {
-      return (
-        <Box key={menu.id} sx={{ position: 'relative' }}>
-          <Button variant='text' color='info' size='small'>
-            {menu.title}
-          </Button>
-        </Box>
-      );
-    }
-
-    return (
-      <Link key={menu.id} href={menu.url || route(menu.route as string)}>
-        <Button variant='text' color='info' size='small'>
-          {menu.title}
-        </Button>
-      </Link>
-    );
-  };
 
   return (
     <AppBar
@@ -50,7 +29,7 @@ export default function AppHeader() {
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <GitHub />
             <CartCounter items={(usePage().props.cart as CartItem[]) ?? []} />
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>{menus.map(renderMenuItem)}</Box>
+            <MenuItems menus={menus ?? []} />
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
             {auth.user ? <UserMenu user={auth.user} /> : <AuthButtons />}

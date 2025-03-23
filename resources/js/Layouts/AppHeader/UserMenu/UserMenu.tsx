@@ -1,4 +1,4 @@
-import { Link, router } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 
@@ -10,6 +10,7 @@ interface UserMenuProps {
 
 export default function UserMenu({ user }: UserMenuProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { component } = usePage();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -49,8 +50,8 @@ export default function UserMenu({ user }: UserMenuProps) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link href={route('profile.edit')} className='w-full'>
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <Link href={route('profile')} className={component.startsWith('Profile') ? 'active' : ''}>
+          <MenuItem>Profile</MenuItem>
         </Link>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>

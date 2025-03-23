@@ -1,4 +1,4 @@
-import type { PageProps } from '@/types';
+import type { CategoryType, FiltersType, PageProps, ProductType } from '@/types';
 
 export interface HomeProps extends PageProps {
   featuredProducts: ProductType[];
@@ -22,23 +22,4 @@ export interface CategoriesProps {
 export interface CategoryItemProps {
   category: CategoryType;
   filters: FiltersType;
-}
-
-export interface ProductType {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  rating: number;
-  category?: CategoryType;
-}
-
-export interface CategoryType {
-  id: number;
-  name: string;
-  slug: string;
-}
-
-export interface FiltersType {
-  category: string | null;
 }

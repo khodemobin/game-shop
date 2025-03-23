@@ -1,8 +1,8 @@
+import type { CartItem } from '@/types';
 import { router } from '@inertiajs/react';
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge, Box, Button, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
-import type { CartItem } from '../types';
 
 export interface CartCounterProps {
   items: CartItem[];

@@ -73,7 +73,6 @@ export default function Login() {
               name='email'
               value={data.email}
               autoComplete='email'
-              variant='outlined'
               onChange={(e) => setData('email', e.target.value)}
             />
           </FormControl>
@@ -90,7 +89,6 @@ export default function Login() {
               autoFocus
               required
               fullWidth
-              variant='outlined'
               color={errors.password ? 'error' : 'primary'}
               value={data.password}
               onChange={(e) => setData('password', e.target.value)}

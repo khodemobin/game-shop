@@ -37,14 +37,15 @@ class HomeController extends Controller
 
         $categories = Category::all();
 
+
+        $userFavorites = app(FavoriteController::class)->index($request);
+
         return Inertia::render('Home/Home', [
             'featuredProducts' => $featuredProducts,
             'categories' => $categories,
             'newReleases' => $newReleases,
             'topRated' => $topRated,
-            'userFavorites' => $request->user()
-                ? $request->user()->favorites()->pluck('id')
-                : collect([]),
+            'userFavorites' => $userFavorites,
             'filters' => [
                 'category' => $categoryId
             ]

@@ -22,7 +22,7 @@ class ReviewController extends Controller
             'rating' => $validated['rating'],
         ]);
 
-        return back()->with('success', 'Review submitted for approval');
+        return back()->with('flash.success', 'Review submitted for approval');
     }
 
     public function reply(Request $request, Review $review)
@@ -36,6 +36,6 @@ class ReviewController extends Controller
             'content' => $validated['content'],
         ]);
 
-        return back()->with('success', 'Reply submitted for approval');
+        return back()->with('flash.success', 'Reply submitted for approval');
     }
 }

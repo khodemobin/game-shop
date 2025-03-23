@@ -42,7 +42,11 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'menus' => fn() => app(MenuController::class)->getMenus()
+            'menus' => fn() => app(MenuController::class)->getMenus(),
+            'flash' => [
+                'success' => fn() => $request->session()->get('flash.success'),
+                'error' => fn() => $request->session()->get('flash.error')
+            ],
         ];
     }
 }

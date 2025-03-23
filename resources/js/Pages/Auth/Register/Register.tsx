@@ -56,7 +56,6 @@ export default function Register() {
               id='name'
               name='name'
               value={data.name}
-              variant='outlined'
               onChange={(e) => setData('name', e.target.value)}
             />
           </FormControl>
@@ -90,7 +89,6 @@ export default function Register() {
               id='password'
               required
               fullWidth
-              variant='outlined'
               value={data.password}
               onChange={(e) => setData('password', e.target.value)}
             />
@@ -107,7 +105,6 @@ export default function Register() {
               id='password_confirmation'
               required
               fullWidth
-              variant='outlined'
               value={data.password_confirmation}
               onChange={(e) => setData('password_confirmation', e.target.value)}
             />
