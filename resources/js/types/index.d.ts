@@ -86,3 +86,22 @@ type ReviewReplyType = {
   is_approved: boolean;
   user: UserType;
 };
+
+export interface TicketType {
+  id: number;
+  title: string;
+  message: string;
+  status: string;
+  priority: string;
+  image: string | null;
+  created_at: string;
+  replies: TicketReplyType[];
+}
+
+export interface TicketReplyType {
+  id: number;
+  message: string;
+  image: string | null;
+  is_admin: boolean;
+  created_at: string;
+}

@@ -31,7 +31,7 @@ class ReviewController extends Controller
             'content' => 'required|string',
         ]);
 
-        $reply = $review->replies()->create([
+        $review->replies()->create([
             'user_id' => $request->user()->id,
             'content' => $validated['content'],
         ]);

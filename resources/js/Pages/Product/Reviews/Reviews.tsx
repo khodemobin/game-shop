@@ -68,6 +68,7 @@ export default function Reviews({ productId, reviews }: ReviewProps) {
               color={errors.content ? 'error' : 'primary'}
               fullWidth
               multiline
+              rows={4}
               value={data.content}
               onChange={(e) => setData('content', e.target.value)}
               placeholder='Write your review...'
@@ -120,6 +121,8 @@ export default function Reviews({ productId, reviews }: ReviewProps) {
                     helperText={replyErrors.content}
                     color={replyErrors.content ? 'error' : 'primary'}
                     fullWidth
+                    multiline
+                    rows={4}
                     size='small'
                     value={replyData.content}
                     onChange={(e) => setReplyData('content', e.target.value)}

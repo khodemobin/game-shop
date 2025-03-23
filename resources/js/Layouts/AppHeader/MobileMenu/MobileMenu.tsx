@@ -1,14 +1,11 @@
 import ColorModeIconDropdown from '@/theme/ColorModeIconDropdown';
-
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import MenuIcon from '@mui/icons-material/Menu';
-
-import { Link, router, usePage } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Box, Button, Divider, Drawer, IconButton, MenuItem } from '@mui/material';
 import { useState } from 'react';
 
 import type { MenuItemType } from '@/types';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface MobileMenuProps {
   user: {
@@ -19,61 +16,36 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ user, menus }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const [openSubMenus, setOpenSubMenus] = useState<number[]>([]);
-  const { url, component } = usePage();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
-  const toggleSubMenu = (menuId: number) => {
-    setOpenSubMenus((prev) => (prev.includes(menuId) ? prev.filter((id) => id !== menuId) : [...prev, menuId]));
+  const handleLogout = () => {
+    router.post(route('logout'));
   };
 
   const renderMenuItem = (menu: MenuItemType) => {
     if (menu?.children?.length) {
-      const isSubMenuOpen = openSubMenus.includes(menu.id);
       return (
-        <Box key={menu.id}>
-          <MenuItem
-            onClick={() => toggleSubMenu(menu.id)}
-            sx={{ fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}
-          >
-            {menu.title}
-            {isSubMenuOpen ? <ExpandLess /> : <ExpandMore />}
-          </MenuItem>
-          <Box sx={{ display: isSubMenuOpen ? 'block' : 'none' }}>
-            {menu.children.map((child) => (
-              <Link
-                key={child.id}
-                href={child.url || route(child.route as string)}
-                style={{ width: '100%' }}
-                className={url === child.url ? 'active' : ''}
-              >
-                <MenuItem onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  {child.title}
-                </MenuItem>
-              </Link>
-            ))}
-          </Box>
-        </Box>
+        <>
+          <MenuItem sx={{ fontWeight: 'bold' }}>{menu.title}</MenuItem>
+          {menu.children.map((child) => (
+            <Link key={child.id} href={child.url || route(child.route as string)} style={{ width: '100%' }}>
+              <MenuItem onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                {child.title}
+              </MenuItem>
+            </Link>
+          ))}
+        </>
       );
     }
 
     return (
-      <Link
-        className={url === menu.url ? 'active' : ''}
-        key={menu.id}
-        href={menu.url || route(menu.route as string)}
-        style={{ width: '100%' }}
-      >
+      <Link key={menu.id} href={menu.url || route(menu.route as string)} style={{ width: '100%' }}>
         <MenuItem onClick={toggleDrawer(false)}>{menu.title}</MenuItem>
       </Link>
     );
-  };
-
-  const handleLogout = () => {
-    router.post(route('logout'));
   };
 
   return (
@@ -107,11 +79,7 @@ export default function MobileMenu({ user, menus }: MobileMenuProps) {
           {user ? (
             <>
               <MenuItem>
-                <Link
-                  style={{ width: '100%' }}
-                  href={route('profile')}
-                  className={component.startsWith('Profile') ? 'active' : ''}
-                >
+                <Link style={{ width: '100%' }} href={route('profile')}>
                   <Button color='primary' variant='contained' fullWidth>
                     Profile
                   </Button>

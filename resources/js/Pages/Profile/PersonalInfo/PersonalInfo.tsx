@@ -17,7 +17,7 @@ export default function PersonalInfo() {
   return (
     <Box component='form' onSubmit={handleSubmit}>
       <Typography variant='h4' gutterBottom>
-        Personal Information
+        Personal Info
       </Typography>
 
       <Divider />
@@ -27,10 +27,10 @@ export default function PersonalInfo() {
           <TextField
             error={!!errors.name}
             helperText={errors.name}
+            color={errors.name ? 'error' : 'primary'}
             name='name'
             autoFocus
             required
-            color={errors.name ? 'error' : 'primary'}
             value={data.name}
             onChange={(e) => setData('name', e.target.value)}
           />

@@ -39,7 +39,7 @@ export const inputsCustomizations: Components<Theme> = {
               size: 'small'
             },
             style: {
-              height: '2.25rem',
+              minHeight: '2.25rem',
               padding: '8px 12px'
             }
           },
@@ -48,7 +48,7 @@ export const inputsCustomizations: Components<Theme> = {
               size: 'medium'
             },
             style: {
-              height: '2.5rem' // 40px
+              minHeight: '2.5rem' // 40px
             }
           },
           {
@@ -258,7 +258,7 @@ export const inputsCustomizations: Components<Theme> = {
             },
             style: {
               width: '2.25rem',
-              height: '2.25rem',
+              minHeight: '2.25rem',
               padding: '0.25rem',
               [`& .${svgIconClasses.root}`]: { fontSize: '1rem' }
             }
@@ -269,7 +269,7 @@ export const inputsCustomizations: Components<Theme> = {
             },
             style: {
               width: '2.5rem',
-              height: '2.5rem'
+              minHeight: '2.5rem'
             }
           }
         ]
@@ -314,13 +314,13 @@ export const inputsCustomizations: Components<Theme> = {
     defaultProps: {
       disableRipple: true,
       icon: <CheckBoxOutlineBlankRoundedIcon sx={{ color: 'hsla(210, 0%, 0%, 0.0)' }} />,
-      checkedIcon: <CheckRoundedIcon sx={{ height: 14, width: 14 }} />,
-      indeterminateIcon: <RemoveRoundedIcon sx={{ height: 14, width: 14 }} />
+      checkedIcon: <CheckRoundedIcon sx={{ minHeight: 14, width: 14 }} />,
+      indeterminateIcon: <RemoveRoundedIcon sx={{ minHeight: 14, width: 14 }} />
     },
     styleOverrides: {
       root: ({ theme }) => ({
         margin: 10,
-        height: 16,
+        minHeight: 16,
         width: 16,
         borderRadius: 5,
         border: '1px solid ',
@@ -404,7 +404,7 @@ export const inputsCustomizations: Components<Theme> = {
               size: 'small'
             },
             style: {
-              height: '2.25rem'
+              minHeight: '2.25rem'
             }
           },
           {
@@ -412,7 +412,7 @@ export const inputsCustomizations: Components<Theme> = {
               size: 'medium'
             },
             style: {
-              height: '2.5rem'
+              minHeight: '2.5rem'
             }
           }
         ]

@@ -16,7 +16,7 @@ export default function AccountSettings() {
   return (
     <Box component='form' onSubmit={handleSubmit}>
       <Typography variant='h4' gutterBottom>
-        Change Password
+        Account Settings
       </Typography>
 
       <Divider />
